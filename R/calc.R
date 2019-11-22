@@ -166,15 +166,21 @@
 
 
 setMethod('calc', signature(x='Raster', fun='function'), 
-function(x, fun, filename='', na.rm, forcefun=FALSE, forceapply=FALSE, ...) {
+function(x, fun, filename='', na.rm, forcefun=FALSE, forceapply=FALSE, ..., calctestresult=NULL) {
 
 	nl <- nlayers(x)
 
-	test <- .calcTest(x[1:5], fun, na.rm, forcefun, forceapply)
-	doapply <- test$doapply
-	makemat <- test$makemat
-	trans <- test$trans
-	nlout <- test$nlout
+	if (is.null(calctestresult)) {
+  	calctestresult <- .calcTest(x[1:5], fun, na.rm, forcefun, forceapply)
+	} else {
+	  message("No .calcTest is performed and the following values are used:\n", paste(names(calctestresult), calctestresult, sep=" = ", collapse=", "))
+	}
+	
+	doapply <- calctestresult$doapply
+	makemat <- calctestresult$makemat
+	trans <- calctestresult$trans
+	nlout <- calctestresult$nlout
+	
 	if (nlout == 1) {
 		out <- raster(x)
 	} else {

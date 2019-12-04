@@ -10,3 +10,5 @@
 .Rproj.user
 revdep
 raster.Rproj
+.RData
+respDf.RData
